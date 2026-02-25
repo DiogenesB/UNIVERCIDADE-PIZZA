@@ -410,19 +410,15 @@ function finalizarPedido() {
     mensagem += `\n💰 *TOTAL: R$ ${total.toFixed(2)}*\n`;
     mensagem += '═══════════════════════\n\n';
     mensagem += '*📍 DADOS PARA ENTREGA:*\n';
-    mensagem += '▸ Nome: \n';
-    mensagem += '▸ Endereço: \n';
-    mensagem += '▸ Número: \n';
-    mensagem += '▸ Bairro: CDE\n';
-    mensagem += '▸ Telefone: \n\n';
-    mensagem += '*💳 FORMA DE PAGAMENTO:*\n';
+    mensagem += '*ENVIE SUA LOCALIZAÇÃO:* \n';
+    mensagem += '*INDIQUE A FORMA DE PAGAMENTO:*\n';
     mensagem += '▸ ( ) Dinheiro\n';
     mensagem += '▸ ( ) Cartão\n';
     mensagem += '▸ ( ) Pix\n\n';
     mensagem += '*⏰ HORÁRIO:*\n';
     mensagem += 'Seg a Qui: 19h às 00h\n';
     mensagem += 'Sex a Dom: até 01h\n\n';
-    mensagem += '✅ *Aguardando confirmação!*\n';
+    mensagem += ' *Aguardando confirmação!*\n';
     mensagem += 'Obrigado pela preferência! 🍕';
 
     const mensagemCodificada = encodeURIComponent(mensagem);
