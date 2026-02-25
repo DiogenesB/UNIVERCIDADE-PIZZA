@@ -8,7 +8,7 @@
     <!-- FONTES -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
     
     <!-- FONT AWESOME -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -23,7 +23,7 @@
             <div class="header-content">
                 <div class="logo">
                     <div class="logo-icon">
-                         <img src="imagens/logo.jpeg" alt="Universidade da Pizza">
+                        <img src="imagens/logo.jpeg" alt="Universidade da Pizza" onerror="this.src='https://via.placeholder.com/45x45/8B1E1E/D4AF37?text=Pizza'">
                     </div>
                     <div class="logo-text">
                         <h1>UNIVERSIDAD <span>DEL LA PIZZA</span></h1>
@@ -38,29 +38,92 @@
                     </button>
                 </div>
             </div>
-            
-            <!-- INFO HORÁRIO -->
-            <div class="header-info-mobile">
-                <i class="fas fa-clock"></i>
-                <span>Seg a Qui 19h-00h | Sex a Dom até 01h</span>
-            </div>
         </div>
     </header>
 
+    <!-- INFO BAR -->
+    <div class="info-bar">
+        <div class="container">
+            <div class="info-bar-content">
+                <div class="info-item">
+                    <i class="fas fa-clock"></i>
+                    <div class="info-item-text">
+                        <strong>Horário</strong>
+                        <span>Seg-Qui 19h-00h • Sex-Dom até 01h</span>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div class="info-item-text">
+                        <strong>Endereço</strong>
+                        <span>Rua Abdon Palácios, Km 4, Pablo Rojas, Ciudad del Este</span>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-credit-card"></i>
+                    <div class="info-item-text">
+                        <strong>Pagamento</strong>
+                        <span>Dinheiro • Cartão • Pix</span>
+                    </div>
+                </div>
+                <div class="info-item info-item-phone">
+                    <i class="fas fa-phone-alt"></i>
+                    <div class="info-item-text">
+                        <strong>WhatsApp</strong>
+                        <a href="https://wa.me/5555991871850" target="_blank">(55) 99187-1850</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <main>
-        <!-- BANNER PROMOÇÃO DO DIA -->
+        <!-- HERO SECTION -->
+        <section class="hero-section">
+            <div class="container">
+                <div class="hero-content">
+                    <span class="hero-badge"><i class="fas fa-crown"></i> A MELHOR DE CDE</span>
+                    <h1 class="hero-title">O VERDADEIRO <span>SABOR </span></h1>
+                    <p class="hero-subtitle">Ingredientes selecionados e o sabor que só a Universidade de La Pizza tem.</p>
+                    <div class="hero-ctas">
+                        <button class="hero-btn hero-btn-primary" id="hero-order-btn">
+                            <i class="fas fa-pizza-slice"></i> FAZER PEDIDO
+                        </button>
+                        <button class="hero-btn hero-btn-secondary" id="hero-promo-btn">
+                            <i class="fas fa-tags"></i> VER PROMOÇÕES
+                        </button>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="hero-stat-item">
+                            <span class="hero-stat-number">10+</span>
+                            <span class="hero-stat-label">Sabores</span>
+                        </div>
+                        <div class="hero-stat-item">
+                            <span class="hero-stat-number">35'</span>
+                            <span class="hero-stat-label">Tempo médio</span>
+                        </div>
+                        <div class="hero-stat-item">
+                            <span class="hero-stat-number">★★★★★</span>
+                            <span class="hero-stat-label">4.9 (500+ avaliações)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROMO DO DIA -->
         <section class="promo-dia-section">
             <div class="container">
-                <div id="promoDiaContainer"></div>
+                <div id="promoDiaContainer" class="promo-dia-container"></div>
             </div>
         </section>
 
         <!-- PROMOÇÕES DA SEMANA -->
-        <section class="promos-semana-section">
+        <section class="promos-semana-section" id="promos">
             <div class="container">
                 <div class="section-header">
-                    <h2><i class="fas fa-calendar-alt"></i> PROMOS DA SEMANA</h2>
-                    <p>Toque para adicionar</p>
+                    <h2><i class="fas fa-calendar-alt"></i> PROMOÇÕES DA SEMANA</h2>
+                    <p>Cada dia uma pizza especial</p>
                 </div>
                 <div class="promos-grid" id="promosGrid"></div>
             </div>
@@ -74,7 +137,7 @@
                         <i class="fas fa-th-large"></i> <span>Todos</span>
                     </button>
                     <button class="filtro-btn" data-filter="salgadas">
-                        <i class="fas fa-pizza-slice"></i> <span>Salgadas</span>
+                        <i class="fas fa-pizza-slice"></i> <span>Tradicionais</span>
                     </button>
                     <button class="filtro-btn" data-filter="doces">
                         <i class="fas fa-candy-cane"></i> <span>Doces</span>
@@ -87,8 +150,12 @@
         </section>
 
         <!-- CARDÁPIO -->
-        <section class="cardapio-section">
+        <section class="cardapio-section" id="cardapio">
             <div class="container">
+                <div class="section-header">
+                    <h2><i class="fas fa-utensils"></i> NOSSO CARDÁPIO</h2>
+                    <p>Escolha sua favorita</p>
+                </div>
                 <div class="produtos-grid" id="produtosGrid"></div>
             </div>
         </section>
@@ -98,7 +165,7 @@
     <div class="cart-modal" id="cartModal">
         <div class="cart-modal-content">
             <div class="cart-modal-header">
-                <h3><i class="fas fa-shopping-bag"></i> Meu Pedido</h3>
+                <h3><i class="fas fa-shopping-bag"></i> MEU PEDIDO</h3>
                 <button class="cart-modal-close" id="cartClose">
                     <i class="fas fa-times"></i>
                 </button>
@@ -110,23 +177,28 @@
                     <strong id="cartTotal">R$ 0,00</strong>
                 </div>
                 <button class="btn-finalizar" id="checkoutBtn">
-                    <i class="fab fa-whatsapp"></i> Finalizar Pedido
+                    <i class="fab fa-whatsapp"></i> FINALIZAR PEDIDO
                 </button>
-                <button class="btn-continuar" id="continueBtn">Continuar Comprando</button>
+                <button class="btn-continuar" id="continueBtn">Continuar comprando</button>
+                
+                <div class="cart-payment-info">
+                    <p><i class="fas fa-credit-card"></i> Aceitamos: Dinheiro • Cartão • Pix</p>
+                    <p><i class="fas fa-clock"></i> Entrega: 30-45 min</p>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- BOTÃO FLUTUANTE DO CARRINHO (MOBILE) -->
+    <!-- BOTÃO FLUTUANTE -->
     <div class="cart-floating" id="cartFloating" style="display: none;">
         <button class="cart-floating-btn" id="cartFloatingBtn">
             <i class="fas fa-shopping-bag"></i>
             <span class="cart-floating-count" id="cartFloatingCount">0</span>
-            <span class="cart-floating-text">Ver Carrinho</span>
+            <span class="cart-floating-text">Ver carrinho</span>
         </button>
     </div>
 
-    <!-- TOAST NOTIFICATION -->
+    <!-- TOAST -->
     <div class="toast" id="toast"></div>
 
     <!-- SCRIPTS -->

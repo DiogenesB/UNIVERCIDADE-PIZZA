@@ -1,11 +1,13 @@
 // CONFIGURAÇÕES
-const WHATSAPP_NUMBER = '5555991871850'; // Substitua pelo número da pizzaria
+const WHATSAPP_NUMBER = '5555991871850';
+const STORAGE_KEY = '@universidad-pizza-carrinho';
 
 // VARIÁVEIS GLOBAIS
 let produtos = [];
 let carrinho = [];
+let ultimoItemAdicionado = null;
 
-// MAPA DE DIAS DA SEMANA
+// DIAS DA SEMANA
 const DIAS_SEMANA = {
     0: 'DOMINGO',
     1: 'SEGUNDA',
@@ -16,7 +18,7 @@ const DIAS_SEMANA = {
     6: 'SÁBADO'
 };
 
-// PROMOÇÕES DA SEMANA - COM IMAGENS LOCAIS
+// PROMOÇÕES - CORRIGIDO COM PLACEHOLDERS
 const PROMOCOES = [
     {
         id: 101,
@@ -27,7 +29,7 @@ const PROMOCOES = [
         precoOriginal: 42.90,
         precoPromo: 23.99,
         categoria: 'salgadas',
-        imagem: "imagens/pizza1.jpg"
+        imagem: 'https://images.unsplash.com/photo-1628840042765-356cda07504e?w=400&auto=format'
     },
     {
         id: 102,
@@ -38,7 +40,7 @@ const PROMOCOES = [
         precoOriginal: 64.00,
         precoPromo: 54.00,
         categoria: 'salgadas',
-        imagem: "imagens/pizza1.jpg"
+        imagem: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&auto=format'
     },
     {
         id: 103,
@@ -49,7 +51,7 @@ const PROMOCOES = [
         precoOriginal: 64.00,
         precoPromo: 54.00,
         categoria: 'salgadas',
-        imagem: "imagens/pizza1.jpg"
+        imagem: 'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=400&auto=format'
     },
     {
         id: 104,
@@ -60,7 +62,7 @@ const PROMOCOES = [
         precoOriginal: 46.90,
         precoPromo: 23.99,
         categoria: 'salgadas',
-        imagem: "imagens/pizza1.jpg"
+        imagem: 'https://images.unsplash.com/photo-1513104890138-7c749660a47f?w=400&auto=format'
     },
     {
         id: 105,
@@ -71,7 +73,7 @@ const PROMOCOES = [
         precoOriginal: 43.90,
         precoPromo: 23.99,
         categoria: 'salgadas',
-        imagem: "imagens/pizza1.jpg"
+        imagem: 'https://images.unsplash.com/photo-1590947132387-155cc02f3212?w=400&auto=format'
     },
     {
         id: 106,
@@ -82,11 +84,11 @@ const PROMOCOES = [
         precoOriginal: 39.90,
         precoPromo: 23.99,
         categoria: 'salgadas',
-        imagem: "imagens/pizza1.jpg"
+        imagem: 'https://images.unsplash.com/photo-1541745537411-b8046dc6d66c?w=400&auto=format'
     }
 ];
 
-// ELEMENTOS DO DOM
+// ELEMENTOS DOM
 const promoDiaContainer = document.getElementById('promoDiaContainer');
 const promosGrid = document.getElementById('promosGrid');
 const produtosGrid = document.getElementById('produtosGrid');
@@ -104,7 +106,7 @@ const cartFloating = document.getElementById('cartFloating');
 const cartFloatingBtn = document.getElementById('cartFloatingBtn');
 const cartFloatingCount = document.getElementById('cartFloatingCount');
 
-// FUNÇÃO PARA OBTER DIA ATUAL
+// FUNÇÕES AUXILIARES
 function getDiaAtual() {
     const hoje = new Date();
     return {
@@ -113,13 +115,45 @@ function getDiaAtual() {
     };
 }
 
-// FUNÇÃO PARA VERIFICAR SE PROMOÇÃO ESTÁ DISPONÍVEL HOJE
 function isPromocaoHoje(promocao) {
     const diaAtual = getDiaAtual();
     return promocao.diaNumero === diaAtual.numero;
 }
 
-// MOSTRAR PROMOÇÃO DO DIA
+function salvarCarrinho() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(carrinho));
+}
+
+function carregarCarrinho() {
+    const carrinhoSalvo = localStorage.getItem(STORAGE_KEY);
+    if (carrinhoSalvo) {
+        carrinho = JSON.parse(carrinhoSalvo);
+        atualizarCarrinho();
+    }
+}
+
+// FUNÇÕES DE UI/UX
+function mostrarToast(mensagem, tipo = 'sucesso') {
+    toast.style.display = 'flex';
+    toast.innerHTML = mensagem;
+    toast.style.background = tipo === 'sucesso' ? '#2E7D32' : '#D32F2F';
+    
+    setTimeout(() => {
+        toast.style.display = 'none';
+    }, 2500);
+}
+
+function animarBotaoCarrinho() {
+    cartBtn.classList.add('bump');
+    setTimeout(() => cartBtn.classList.remove('bump'), 300);
+    
+    if (cartFloatingBtn) {
+        cartFloatingBtn.classList.add('bump');
+        setTimeout(() => cartFloatingBtn.classList.remove('bump'), 300);
+    }
+}
+
+// RENDERIZAÇÃO
 function mostrarPromocaoDia() {
     const diaAtual = getDiaAtual();
     const promocaoHoje = PROMOCOES.find(p => p.diaNumero === diaAtual.numero);
@@ -129,11 +163,12 @@ function mostrarPromocaoDia() {
             <div class="promo-dia-card" style="background: linear-gradient(135deg, #666, #444);">
                 <div class="promo-dia-overlay"></div>
                 <div class="promo-dia-content">
-                    <span class="promo-dia-label">DOMINGO</span>
-                    <h2 class="promo-dia-titulo">Hoje é Domingo</h2>
-                    <p class="promo-dia-descricao">Aproveite nosso cardápio completo!</p>
+                    <span class="promo-dia-badge"><i class="fas fa-star"></i> DOMINGO ESPECIAL</span>
+                    <span class="promo-dia-label">${diaAtual.nome}</span>
+                    <h2 class="promo-dia-titulo">Cardápio Completo</h2>
+                    <p class="promo-dia-descricao">Aproveite todas as nossas opções especiais!</p>
                     <div class="promo-dia-preco">
-                        <span class="promo-dia-preco-novo">Cardápio Especial</span>
+                        <span class="promo-dia-preco-novo">Frete Grátis</span>
                     </div>
                 </div>
             </div>
@@ -154,14 +189,13 @@ function mostrarPromocaoDia() {
                     <span class="promo-dia-preco-novo">R$ ${promocaoHoje.precoPromo.toFixed(2)}</span>
                 </div>
                 <button class="promo-dia-btn" onclick="adicionarPromocao(${promocaoHoje.id})">
-                    <i class="fas fa-cart-plus"></i> Aproveitar Promoção
+                    <i class="fas fa-cart-plus"></i> APROVEITAR OFERTA
                 </button>
             </div>
         </div>
     `;
 }
 
-// MOSTRAR PROMOÇÕES DA SEMANA
 function mostrarPromocoesSemana() {
     const diaAtual = getDiaAtual();
     
@@ -173,16 +207,17 @@ function mostrarPromocoesSemana() {
         if (!disponivelHoje && diasRestantes > 0 && diasRestantes < 7) {
             if (diasRestantes === 1) disponibilidadeTexto = 'Amanhã!';
             else if (diasRestantes === 2) disponibilidadeTexto = 'Depois de amanhã';
-            else disponibilidadeTexto = `${diasRestantes} dias`;
+            else disponibilidadeTexto = `Em ${diasRestantes} dias`;
         }
         
         return `
             <div class="promo-card ${disponivelHoje ? 'disponivel-hoje' : ''}">
                 <span class="promo-tag ${disponivelHoje ? 'promo-tag-hoje' : 'promo-tag-indisponivel'}">
                     <i class="fas fa-${disponivelHoje ? 'star' : 'clock'}"></i>
-                    ${disponivelHoje ? 'DISPONÍVEL HOJE' : (disponibilidadeTexto || 'Indisponível')}
+                    ${disponivelHoje ? 'DISPONÍVEL HOJE' : (disponibilidadeTexto || 'INDISPONÍVEL')}
                 </span>
-                <div class="promo-image" style="background-image: url('${promo.imagem}');">
+                <div class="promo-image">
+                    <img src="${promo.imagem}" alt="${promo.nome}" loading="lazy" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1513104890138-7c749660a47f?w=400&auto=format';">
                     <div class="promo-image-overlay"></div>
                 </div>
                 <div class="promo-content">
@@ -196,7 +231,7 @@ function mostrarPromocoesSemana() {
                     </div>
                     <button class="promo-btn" onclick="adicionarPromocao(${promo.id})" ${!disponivelHoje ? 'disabled' : ''}>
                         <i class="fas fa-${disponivelHoje ? 'cart-plus' : 'clock'}"></i>
-                        ${disponivelHoje ? 'Adicionar' : (disponibilidadeTexto ? `Disponível ${disponibilidadeTexto}` : 'Indisponível')}
+                        ${disponivelHoje ? 'ADICIONAR' : (disponibilidadeTexto || 'INDISPONÍVEL')}
                     </button>
                 </div>
             </div>
@@ -204,52 +239,84 @@ function mostrarPromocoesSemana() {
     }).join('');
 }
 
-// CARREGAR PRODUTOS DO JSON
 async function carregarProdutos() {
     try {
         const response = await fetch('produtos.json');
         produtos = await response.json();
+        
+        // Adiciona imagens do Unsplash para demonstração
+        const imagensUnsplash = {
+            salgadas: [
+                'https://images.unsplash.com/photo-1628840042765-356cda07504e?w=400&auto=format',
+                'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&auto=format',
+                'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=400&auto=format',
+                'https://images.unsplash.com/photo-1513104890138-7c749660a47f?w=400&auto=format'
+            ],
+            doces: [
+                'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=400&auto=format',
+                'https://images.unsplash.com/photo-1613809755783-7a2d9b6f5d5b?w=400&auto=format'
+            ],
+            bebidas: [
+                'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=400&auto=format',
+                'https://images.unsplash.com/photo-1543253687-c931c150caec?w=400&auto=format'
+            ]
+        };
+        
+        produtos = produtos.map((produto, index) => {
+            const imagensCategoria = imagensUnsplash[produto.categoria] || imagensUnsplash.salgadas;
+            const imagemIndex = index % imagensCategoria.length;
+            return {
+                ...produto,
+                imagem: imagensCategoria[imagemIndex]
+            };
+        });
+        
         mostrarProdutos('all');
     } catch (error) {
         console.error('Erro ao carregar produtos:', error);
-        produtosGrid.innerHTML = '<p style="text-align: center; padding: 20px;">Erro ao carregar produtos</p>';
+        produtosGrid.innerHTML = '<p style="text-align: center; padding: 40px;">Erro ao carregar produtos. Tente novamente.</p>';
     }
 }
 
-// MOSTRAR PRODUTOS (COM IMAGENS LOCAIS)
 function mostrarProdutos(filtro) {
     const produtosFiltrados = filtro === 'all' 
         ? produtos 
         : produtos.filter(p => p.categoria === filtro);
 
     if (produtosFiltrados.length === 0) {
-        produtosGrid.innerHTML = '<p style="text-align: center; padding: 20px;">Nenhum produto encontrado</p>';
+        produtosGrid.innerHTML = '<p style="text-align: center; padding: 40px;">Nenhum produto encontrado nesta categoria.</p>';
         return;
     }
 
     produtosGrid.innerHTML = produtosFiltrados.map(produto => `
         <div class="produto-card">
-            <div class="produto-image" style="background-image: url('${produto.imagem}');">
-                <div class="produto-image-overlay"></div>
+            <div class="produto-image">
+                <img src="${produto.imagem}" 
+                     alt="${produto.nome}" 
+                     loading="lazy"
+                     onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1513104890138-7c749660a47f?w=400&auto=format';">
+                <div class="produto-tag-categoria">
+                    ${produto.categoria === 'salgadas' ? '🍕 TRADICIONAL' : produto.categoria === 'doces' ? '🍰 DOCE' : '🥤 BEBIDA'}
+                </div>
             </div>
             <div class="produto-content">
                 <h3 class="produto-nome">${produto.nome}</h3>
                 <p class="produto-descricao">${produto.descricao}</p>
                 <div class="produto-preco">R$ ${produto.preco.toFixed(2)}</div>
                 <button class="produto-btn" onclick="adicionarAoCarrinho(${produto.id})">
-                    <i class="fas fa-cart-plus"></i> Adicionar
+                    <i class="fas fa-cart-plus"></i> ADICIONAR
                 </button>
             </div>
         </div>
     `).join('');
 }
 
-// ADICIONAR PROMOÇÃO
+// FUNÇÕES DO CARRINHO
 function adicionarPromocao(promoId) {
     const promo = PROMOCOES.find(p => p.id === promoId);
     
     if (!isPromocaoHoje(promo)) {
-        mostrarToast('❌ Esta promoção não está disponível hoje!');
+        mostrarToast('❌ Promoção indisponível hoje!', 'erro');
         return;
     }
     
@@ -267,13 +334,15 @@ function adicionarPromocao(promoId) {
             isPromo: true,
             imagem: promo.imagem
         });
+        ultimoItemAdicionado = promoId;
     }
     
+    salvarCarrinho();
     atualizarCarrinho();
-    mostrarToast('🎉 Promoção adicionada!');
+    animarBotaoCarrinho();
+    mostrarToast(`🎉 ${promo.nome} adicionada!`);
 }
 
-// ADICIONAR PRODUTO NORMAL
 function adicionarAoCarrinho(produtoId) {
     const produto = produtos.find(p => p.id === produtoId);
     const itemExistente = carrinho.find(item => item.id === produtoId);
@@ -285,20 +354,23 @@ function adicionarAoCarrinho(produtoId) {
             ...produto,
             quantidade: 1
         });
+        ultimoItemAdicionado = produtoId;
     }
 
+    salvarCarrinho();
     atualizarCarrinho();
-    mostrarToast('🍕 Produto adicionado!');
+    animarBotaoCarrinho();
+    mostrarToast(`🍕 ${produto.nome} adicionada!`);
 }
 
-// REMOVER DO CARRINHO
 function removerDoCarrinho(produtoId) {
+    const item = carrinho.find(item => item.id === produtoId);
     carrinho = carrinho.filter(item => item.id !== produtoId);
+    salvarCarrinho();
     atualizarCarrinho();
-    mostrarToast('🗑️ Item removido');
+    mostrarToast(`🗑️ ${item.nome} removida`);
 }
 
-// ALTERAR QUANTIDADE
 function alterarQuantidade(produtoId, delta) {
     const item = carrinho.find(item => item.id === produtoId);
     if (item) {
@@ -307,86 +379,83 @@ function alterarQuantidade(produtoId, delta) {
             removerDoCarrinho(produtoId);
         } else {
             item.quantidade = novaQuantidade;
+            salvarCarrinho();
             atualizarCarrinho();
         }
     }
 }
 
-// ATUALIZAR CARRINHO
 function atualizarCarrinho() {
     const totalItens = carrinho.reduce((total, item) => total + item.quantidade, 0);
     
-    // Atualizar contadores
     cartCount.textContent = totalItens;
     if (cartFloatingCount) {
         cartFloatingCount.textContent = totalItens;
     }
     
-    // Mostrar/esconder botão flutuante no mobile
     if (window.innerWidth < 768 && totalItens > 0) {
         cartFloating.style.display = 'flex';
     } else {
         cartFloating.style.display = 'none';
     }
 
-    // Atualizar itens do carrinho
     if (carrinho.length === 0) {
         cartItems.innerHTML = `
             <div class="cart-empty">
                 <i class="fas fa-shopping-bag"></i>
                 <p>Seu carrinho está vazio</p>
+                <p style="font-size: 0.9rem; margin-top: 10px;">Adicione pizzas deliciosas!</p>
             </div>
         `;
         cartTotal.textContent = 'R$ 0,00';
     } else {
-        cartItems.innerHTML = carrinho.map(item => `
-            <div class="cart-item">
-                <div class="cart-item-image" style="background-image: url('${item.imagem}');"></div>
-                <div class="cart-item-info">
-                    <div class="cart-item-nome">${item.nome}</div>
-                    <div class="cart-item-preco">R$ ${item.preco.toFixed(2)}</div>
-                    <div class="cart-item-acoes">
-                        <div class="cart-quantidade">
-                            <button class="qtd-btn" onclick="alterarQuantidade(${item.id}, -1)">
-                                <i class="fas fa-minus"></i>
-                            </button>
-                            <span class="qtd-numero">${item.quantidade}</span>
-                            <button class="qtd-btn" onclick="alterarQuantidade(${item.id}, 1)">
-                                <i class="fas fa-plus"></i>
+        cartItems.innerHTML = carrinho.map(item => {
+            const isNovo = ultimoItemAdicionado === item.id;
+            return `
+                <div class="cart-item ${isNovo ? 'highlight' : ''}">
+                    <div class="cart-item-image">
+                        <img src="${item.imagem}" alt="${item.nome}" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1513104890138-7c749660a47f?w=400&auto=format';">
+                    </div>
+                    <div class="cart-item-info">
+                        <div class="cart-item-nome">${item.nome}</div>
+                        <div class="cart-item-preco">R$ ${item.preco.toFixed(2)}</div>
+                        <div class="cart-item-acoes">
+                            <div class="cart-quantidade">
+                                <button class="qtd-btn" onclick="alterarQuantidade(${item.id}, -1)">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <span class="qtd-numero">${item.quantidade}</span>
+                                <button class="qtd-btn" onclick="alterarQuantidade(${item.id}, 1)">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                            <button class="remove-btn" onclick="removerDoCarrinho(${item.id})">
+                                <i class="fas fa-trash-alt"></i>
                             </button>
                         </div>
-                        <button class="remove-btn" onclick="removerDoCarrinho(${item.id})">
-                            <i class="fas fa-trash-alt"></i>
-                        </button>
                     </div>
                 </div>
-            </div>
-        `).join('');
+            `;
+        }).join('');
 
         const total = calcularTotal();
         cartTotal.textContent = `R$ ${total.toFixed(2)}`;
+        
+        if (ultimoItemAdicionado) {
+            setTimeout(() => {
+                ultimoItemAdicionado = null;
+            }, 1000);
+        }
     }
 }
 
-// CALCULAR TOTAL
 function calcularTotal() {
     return carrinho.reduce((total, item) => total + (item.preco * item.quantidade), 0);
 }
 
-// MOSTRAR TOAST
-function mostrarToast(mensagem) {
-    toast.style.display = 'flex';
-    toast.innerHTML = mensagem;
-    
-    setTimeout(() => {
-        toast.style.display = 'none';
-    }, 2000);
-}
-
-// FINALIZAR PEDIDO
 function finalizarPedido() {
     if (carrinho.length === 0) {
-        mostrarToast('❌ Carrinho vazio!');
+        mostrarToast('❌ Carrinho vazio!', 'erro');
         return;
     }
 
@@ -396,7 +465,7 @@ function finalizarPedido() {
     const horaFormatada = data.toLocaleTimeString('pt-BR');
     const diaAtual = getDiaAtual();
 
-    let mensagem = '🍕 *UNIVERSIDADE DA PIZZA*\n';
+    let mensagem = '🍕 *UNIVERSIDAD DEL LA PIZZA*\n';
     mensagem += '═══════════════════════\n\n';
     mensagem += `📅 *Data:* ${dataFormatada}\n`;
     mensagem += `⏰ *Hora:* ${horaFormatada}\n`;
@@ -409,22 +478,22 @@ function finalizarPedido() {
     
     mensagem += `\n💰 *TOTAL: R$ ${total.toFixed(2)}*\n`;
     mensagem += '═══════════════════════\n\n';
-    mensagem += '*📍 DADOS PARA ENTREGA:*\n';
-    mensagem += '*ENVIE SUA LOCALIZAÇÃO:* \n';
-    mensagem += '*INDIQUE A FORMA DE PAGAMENTO:*\n';
+    mensagem += '*📍 ENDEREÇO DE ENTREGA:*\n';
+    mensagem += 'Rua, número, bairro, complemento:\n\n';
+    mensagem += '*💳 FORMA DE PAGAMENTO:*\n';
     mensagem += '▸ ( ) Dinheiro\n';
-    mensagem += '▸ ( ) Cartão\n';
+    mensagem += '▸ ( ) Cartão (débito/crédito)\n';
     mensagem += '▸ ( ) Pix\n\n';
     mensagem += '*⏰ HORÁRIO:*\n';
     mensagem += 'Seg a Qui: 19h às 00h\n';
     mensagem += 'Sex a Dom: até 01h\n\n';
-    mensagem += ' *Aguardando confirmação!*\n';
+    mensagem += '✅ *Aguardando confirmação!*\n';
     mensagem += 'Obrigado pela preferência! 🍕';
 
     const mensagemCodificada = encodeURIComponent(mensagem);
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${mensagemCodificada}`, '_blank');
     
-    mostrarToast('✅ Pedido enviado!');
+    mostrarToast('✅ Pedido enviado para o WhatsApp!');
 }
 
 // EVENTOS
@@ -464,7 +533,30 @@ filterBtns.forEach(btn => {
     });
 });
 
-// AJUSTAR LAYOUT AO REDIMENSIONAR
+// SCROLL SUAVE
+const heroOrderBtn = document.getElementById('hero-order-btn');
+if (heroOrderBtn) {
+    heroOrderBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const cardapioSection = document.getElementById('cardapio');
+        if (cardapioSection) {
+            cardapioSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    });
+}
+
+const heroPromoBtn = document.getElementById('hero-promo-btn');
+if (heroPromoBtn) {
+    heroPromoBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const promosSection = document.getElementById('promos');
+        if (promosSection) {
+            promosSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    });
+}
+
+// RESIZE
 window.addEventListener('resize', () => {
     const totalItens = carrinho.reduce((total, item) => total + item.quantidade, 0);
     if (window.innerWidth >= 768) {
@@ -474,8 +566,32 @@ window.addEventListener('resize', () => {
     }
 });
 
-// INICIAR
+// ANIMAÇÃO BUMP
+const style = document.createElement('style');
+style.textContent = `
+    .bump {
+        animation: bump 0.3s ease;
+    }
+    @keyframes bump {
+        0% { transform: scale(1); }
+        30% { transform: scale(1.1); }
+        50% { transform: scale(1.15); }
+        70% { transform: scale(1.1); }
+        100% { transform: scale(1); }
+    }
+    .highlight {
+        animation: highlight 1s ease;
+    }
+    @keyframes highlight {
+        0% { background-color: rgba(212,175,55,0.2); }
+        100% { background-color: transparent; }
+    }
+`;
+document.head.appendChild(style);
+
+// INICIALIZAÇÃO
 document.addEventListener('DOMContentLoaded', () => {
+    carregarCarrinho();
     mostrarPromocaoDia();
     mostrarPromocoesSemana();
     carregarProdutos();
