@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Universidade da Pizza | Cardápio Oficial</title>
+    
+    <!-- FONTES -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <!-- FONT AWESOME -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- CSS PRINCIPAL -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">
+                         <img src="imagens/logo.jpeg" alt="Universidade da Pizza">
+                    </div>
+                    <div class="logo-text">
+                        <h1>UNIVERSIDADE <span>DA PIZZA</span></h1>
+                        <p class="logo-slogan">A melhor pizza de CDE</p>
+                    </div>
+                </div>
+                
+                <div class="header-actions">
+                    <button class="cart-btn" id="cartBtn">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- INFO HORÁRIO -->
+            <div class="header-info-mobile">
+                <i class="fas fa-clock"></i>
+                <span>Seg a Qui 19h-00h | Sex a Dom até 01h</span>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- BANNER PROMOÇÃO DO DIA -->
+        <section class="promo-dia-section">
+            <div class="container">
+                <div id="promoDiaContainer"></div>
+            </div>
+        </section>
+
+        <!-- PROMOÇÕES DA SEMANA -->
+        <section class="promos-semana-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2><i class="fas fa-calendar-alt"></i> PROMOS DA SEMANA</h2>
+                    <p>Toque para adicionar</p>
+                </div>
+                <div class="promos-grid" id="promosGrid"></div>
+            </div>
+        </section>
+
+        <!-- FILTROS -->
+        <section class="filtros-section">
+            <div class="container">
+                <div class="filtros-wrapper" id="filtrosWrapper">
+                    <button class="filtro-btn active" data-filter="all">
+                        <i class="fas fa-th-large"></i> <span>Todos</span>
+                    </button>
+                    <button class="filtro-btn" data-filter="salgadas">
+                        <i class="fas fa-pizza-slice"></i> <span>Salgadas</span>
+                    </button>
+                    <button class="filtro-btn" data-filter="doces">
+                        <i class="fas fa-candy-cane"></i> <span>Doces</span>
+                    </button>
+                    <button class="filtro-btn" data-filter="bebidas">
+                        <i class="fas fa-wine-bottle"></i> <span>Bebidas</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- CARDÁPIO -->
+        <section class="cardapio-section">
+            <div class="container">
+                <div class="produtos-grid" id="produtosGrid"></div>
+            </div>
+        </section>
+    </main>
+
+    <!-- MODAL DO CARRINHO -->
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-modal-content">
+            <div class="cart-modal-header">
+                <h3><i class="fas fa-shopping-bag"></i> Meu Pedido</h3>
+                <button class="cart-modal-close" id="cartClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="cart-modal-body" id="cartItems"></div>
+            <div class="cart-modal-footer">
+                <div class="cart-total">
+                    <span>Total:</span>
+                    <strong id="cartTotal">R$ 0,00</strong>
+                </div>
+                <button class="btn-finalizar" id="checkoutBtn">
+                    <i class="fab fa-whatsapp"></i> Finalizar Pedido
+                </button>
+                <button class="btn-continuar" id="continueBtn">Continuar Comprando</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOTÃO FLUTUANTE DO CARRINHO (MOBILE) -->
+    <div class="cart-floating" id="cartFloating" style="display: none;">
+        <button class="cart-floating-btn" id="cartFloatingBtn">
+            <i class="fas fa-shopping-bag"></i>
+            <span class="cart-floating-count" id="cartFloatingCount">0</span>
+            <span class="cart-floating-text">Ver Carrinho</span>
+        </button>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div class="toast" id="toast"></div>
+
+    <!-- SCRIPTS -->
+    <script src="script.js"></script>
+</body>
+</html>

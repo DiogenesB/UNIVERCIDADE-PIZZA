@@ -1,0 +1,130 @@
+[
+    {
+        "id": 1,
+        "nome": "Calabresa Especial",
+        "descricao": "Molho de tomate, mussarela, calabresa artesanal, cebola roxa e azeitonas",
+        "preco": 45.90,
+        "categoria": "salgadas",
+        "imagem": "imagens/pizza1.jpg"
+    },
+    {
+        "id": 2,
+        "nome": "Bacon Supremo",
+        "descricao": "Molho de tomate, mussarela, bacon crocante defumado, catupiry e orégano",
+        "preco": 49.90,
+        "categoria": "salgadas",
+        "imagem": "imagens/pizza2.jpg"
+    },  
+    {
+        "id": 3,
+        "nome": "Napolitana Tradicional",
+        "descricao": "Molho de tomate, mussarela, tomate italiano, parmesão e manjericão fresco",
+        "preco": 47.90,
+        "categoria": "salgadas",
+        "imagem": "imagens/pizza1.jpg"
+    },
+    {
+        "id": 4,
+        "nome": "Carijo Premium",
+        "descricao": "Molho de tomate, mussarela, catupiry, milho verde, bacon e azeitona",
+        "preco": 52.90,
+        "categoria": "salgadas",
+        "imagem": "imagens/pizza2.jpg"
+    },
+    {
+        "id": 5,
+        "nome": "Baiana Especial",
+        "descricao": "Molho de tomate, mussarela, calabresa moída, pimenta dedo-de-moça, cebola",
+        "preco": 48.90,
+        "categoria": "salgadas",
+        "imagem": "imagens/pizza1.jpg"
+    },
+    {
+        "id": 6,
+        "nome": "Mussarela de Búfala",
+        "descricao": "Molho de tomate, mussarela de búfala, tomate seco e manjericão",
+        "preco": 54.90,
+        "categoria": "salgadas",
+        "imagem": "imagens/pizza2.jpg"
+    },
+    {
+        "id": 7,
+        "nome": "Portuguesa",
+        "descricao": "Molho de tomate, mussarela, presunto, ovos, cebola, pimentão e azeitona",
+        "preco": 49.90,
+        "categoria": "salgadas",
+        "imagem": "imagens/pizza1.jpg"
+    },
+    {
+        "id": 8,
+        "nome": "Frango com Catupiry",
+        "descricao": "Molho de tomate, mussarela, frango desfiado, catupiry e milho",
+        "preco": 51.90,
+        "categoria": "salgadas",
+        "imagem": "imagens/pizza2.jpg"
+    },
+    {
+        "id": 9,
+        "nome": "Brigadeiro Gourmet",
+        "descricao": "Chocolate belga, granulado importado e leite condensado",
+        "preco": 59.90,
+        "categoria": "doces",
+        "imagem": "imagens/pizza1.jpg"
+    },
+    {
+        "id": 10,
+        "nome": "Banana Caramelizada",
+        "descricao": "Banana prata caramelizada, canela, leite condensado e mussarela",
+        "preco": 54.90,
+        "categoria": "doces",
+        "imagem": "imagens/pizza2.jpg"
+    },
+    {
+        "id": 11,
+        "nome": "Chocolate com Morango",
+        "descricao": "Chocolate ao leite, morangos frescos, leite condensado e granulado",
+        "preco": 62.90,
+        "categoria": "doces",
+        "imagem": "imagens/pizza1.jpg"
+    },
+    {
+        "id": 12,
+        "nome": "Romeu e Julieta",
+        "descricao": "Mussarela especial, goiabada cascão e queijo minas",
+        "preco": 56.90,
+        "categoria": "doces",
+        "imagem": "imagens/pizza2.jpg"
+    },
+    {
+        "id": 13,
+        "nome": "Coca-Cola 2L",
+        "descricao": "Refrigerante Coca-Cola 2L geladíssima",
+        "preco": 14.90,
+        "categoria": "bebidas",
+        "imagem": "imagens/coca.jpg"
+    },
+    {
+        "id": 14,
+        "nome": "Guaraná Antarctica 2L",
+        "descricao": "Refrigerante Guaraná Antarctica 2L",
+        "preco": 12.90,
+        "categoria": "bebidas",
+        "imagem": "imagens/guarana.jpg"
+    },
+    {
+        "id": 15,
+        "nome": "Suco de Laranja Natural",
+        "descricao": "Suco de laranja natural 500ml",
+        "preco": 9.90,
+        "categoria": "bebidas",
+        "imagem": "imagens/suco.jpg"
+    },
+    {
+        "id": 16,
+        "nome": "Água com Gás",
+        "descricao": "Água mineral com gás 500ml",
+        "preco": 5.90,
+        "categoria": "bebidas",
+        "imagem": "imagens/produtos/agua.jpg"
+    }
+]
