@@ -1,5 +1,5 @@
 // CONFIGURAÇÕES
-const WHATSAPP_NUMBER = '5511999999999'; // Substitua pelo número da pizzaria
+const WHATSAPP_NUMBER = '5555991871850'; // Substitua pelo número da pizzaria
 
 // VARIÁVEIS GLOBAIS
 let produtos = [];
