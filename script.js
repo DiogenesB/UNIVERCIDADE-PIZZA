@@ -476,19 +476,19 @@ function finalizarPedido() {
         mensagem += `• ${item.quantidade}x ${item.nome} - R$ ${(item.preco * item.quantidade).toFixed(2)}\n`;
     });
     
-    mensagem += `\n💰 *TOTAL: R$ ${total.toFixed(2)}*\n`;
+    mensagem += `\n *TOTAL: R$ ${total.toFixed(2)}*\n`;
     mensagem += '═══════════════════════\n\n';
     mensagem += '*📍 ENDEREÇO DE ENTREGA:*\n';
-    mensagem += 'Rua, número, bairro, complemento:\n\n';
-    mensagem += '*💳 FORMA DE PAGAMENTO:*\n';
+    mensagem += 'Mande Sua localização\n\n';
+    mensagem += '* FORMA DE PAGAMENTO:*\n';
     mensagem += '▸ ( ) Dinheiro\n';
     mensagem += '▸ ( ) Cartão (débito/crédito)\n';
     mensagem += '▸ ( ) Pix\n\n';
-    mensagem += '*⏰ HORÁRIO:*\n';
+    mensagem += '*HORÁRIO:*\n';
     mensagem += 'Seg a Qui: 19h às 00h\n';
     mensagem += 'Sex a Dom: até 01h\n\n';
-    mensagem += '✅ *Aguardando confirmação!*\n';
-    mensagem += 'Obrigado pela preferência! 🍕';
+    mensagem += '*Aguardando confirmação!*\n';
+    mensagem += 'Obrigado pela preferência! ';
 
     const mensagemCodificada = encodeURIComponent(mensagem);
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${mensagemCodificada}`, '_blank');
